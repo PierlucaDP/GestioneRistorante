@@ -1,3 +1,5 @@
+**Traccia**
+
 MONGO DB
 
 backend attivita commerciale
@@ -17,3 +19,15 @@ CREA,MODIFICA,VISUALIZZA (impaginazione filtrata)
 6. estrazione cliente che ha speso di piu in un intervallo di tempo
 7. in un dato intervallo di tempo guadagni totali
 8. cameriere che ha fatto guadagnare di piu 9.
+
+
+RICCARDO
+        UTENTI
+        PRODOTTI
+
+PIERLUCA
+        ORDINI
+        CLIENTI 
+
+        CLIENTI
+        ORDINI
