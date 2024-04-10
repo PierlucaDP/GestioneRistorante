@@ -1,4 +1,8 @@
-const Order = require("../models/Order");
+const Order = require('../models/Order');
+const mongoose = require('mongoose');
+const Order = require('../models/Order');
+const Customer = require('../models/Customer');
+const User = require('../models/User');
 
 exports.getOrders = async (req, res, next) => {
   try {
@@ -19,7 +23,7 @@ exports.getOrder = async (req, res, next) => {
     if (!order) {
       res
         .status(400)
-        .json({ success: false, message: "Order not found with id inserted." });
+        .json({ success: false, message: 'Order not found with id inserted.' });
     }
 
     res.status(200).json({ success: true, data: order });
@@ -30,7 +34,18 @@ exports.getOrder = async (req, res, next) => {
 
 exports.createOrder = async (req, res, next) => {
   try {
-    const order = await Order.create(req.body);
+    const { customer, user, totalPrice, paid, amountOrdered } = req.body;
+
+    const customerObject = await Customer.findById(customer);
+    const userObject = await User.findById(user);
+
+    const order = await Order.create({
+      customer: customerObject,
+      user: userObject,
+      totalPrice,
+      paid,
+      amountOrdered,
+    });
 
     res.status(201).json({
       success: true,
@@ -48,7 +63,7 @@ exports.updateOrder = async (req, res, next) => {
     if (!order) {
       res
         .status(400)
-        .json({ success: false, message: "Order not found with id inserted." });
+        .json({ success: false, message: 'Order not found with id inserted.' });
     }
 
     res.status(200).json({ success: true, data: order });
@@ -64,7 +79,7 @@ exports.deleteOrder = async (req, res, next) => {
     if (!order) {
       res
         .status(400)
-        .json({ success: false, message: "Order not found with id inserted." });
+        .json({ success: false, message: 'Order not found with id inserted.' });
     }
 
     res.status(200).json({ success: true, data: {} });
