@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const Product = require('../models/Product');
 
+
+// @desc    Get all products
+// @route   GET /api/v1/products/
+// @access  Public
 exports.getProducts = async (req, res, next) => {
     try {
         const products = await Product.find();
@@ -10,6 +14,9 @@ exports.getProducts = async (req, res, next) => {
     }
 };
 
+// @desc    Get a single product by ID
+// @route   GET /api/v1/products/:id
+// @access  Public
 exports.getProductById = async (req, res, next) => {
     try {
         const product = await Product.findById(req.params.id);
@@ -22,6 +29,9 @@ exports.getProductById = async (req, res, next) => {
     }
 };
 
+// @desc    Create a new product
+// @route   POST /api/v1/products/
+// @access  Public
 exports.createProduct = async (req, res, next) => {
     try {
         const product = await Product.create(req.body);
@@ -31,6 +41,9 @@ exports.createProduct = async (req, res, next) => {
     }
 };
 
+// @desc    Update a product
+// @route   PUT /api/v1/products/:id
+// @access  Public
 exports.updateProduct = async (req, res, next) => {
     try {
         const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -43,6 +56,9 @@ exports.updateProduct = async (req, res, next) => {
     }
 };
 
+// @desc    Delete a product by ID
+// @route   DELETE /api/v1/products/:id
+// @access  Public
 exports.deleteProduct = async (req, res, next) => {
     try {
         const product = await Product.findByIdAndDelete(req.params.id);
