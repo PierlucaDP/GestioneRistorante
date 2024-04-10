@@ -1,12 +1,8 @@
 const mongoose = require("mongoose");
 const UUID = mongoose.SchemaType.UUID();
 
-const User = mongoose.Schema(
+const UserSchema = new mongoose.Schema(
   {
-    uuid: {
-      type: mongoose.Schema.Types.UUID,
-      default: () => uuidv4(),
-    },
     name: {
       type: String,
       required: [true, "Please add a name"],
@@ -36,8 +32,10 @@ const User = mongoose.Schema(
       enum: ["Admin", "WarehouseWorker", "Waiter"],
       require: [true, "Please add a role"],
     },
-  },
-  {}
-);
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+  });
 
-exports = mongoose.model(User, User);
+module.exports = mongoose.model('User', UserSchema);
