@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-const UUID = mongoose.SchemaType.UUID();
-
+ 
 const UserSchema = new mongoose.Schema(
   {
     name: {
@@ -30,7 +29,6 @@ const UserSchema = new mongoose.Schema(
     },
     role: {
       enum: ["Admin", "WarehouseWorker", "Waiter"],
-      require: [true, "Please add a role"],
     },
     createdAt: {
       type: Date,

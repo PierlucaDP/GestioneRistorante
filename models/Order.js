@@ -14,7 +14,7 @@ const orderSchema = new mongoose.Schema({
     required: [true, "Please insert the total amount of product ordered"],
   },
   createdAt: {
-    type: Date,
+    type: Date, 
     default: Date.now,
   },
   customer: {
