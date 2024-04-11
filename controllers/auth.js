@@ -3,7 +3,7 @@ const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/asyncHandler');
 
 // @desc    Register user
-// @route   POST /api/v1/auth/register
+// @route   POST /api/auth/register
 // @access  Public
 exports.register = asyncHandler(async (req, res, next) => {
   const { name, surname, email, password, role } = req.body;
@@ -21,7 +21,7 @@ exports.register = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Login user
-// @route   GET /api/v1/auth/register
+// @route   GET /api/auth/register
 // @access  Public
 exports.login = asyncHandler(async (req, res, next) => {
   try {
@@ -47,6 +47,19 @@ exports.login = asyncHandler(async (req, res, next) => {
   }
 });
 
+// @desc    Get logged user
+// @route   GET /api/auth/me
+// @access  Private
+exports.getLoggedUser = asyncHandler(async (req, res, next) => {
+
+  const user = await User.findById(req.user.id);
+
+  res.status(200).json({
+    sucess: true,
+    user
+  });
+});
+
 
 const sendTokenResponse = (user, statusCode, res) => {
   const token = user.getJWTSignedToken();
@@ -64,3 +77,4 @@ const sendTokenResponse = (user, statusCode, res) => {
     });
 
 };
+
