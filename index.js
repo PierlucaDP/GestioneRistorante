@@ -13,6 +13,7 @@ connectDatabase().catch(console.dir);
 const orders = require('./routes/orders');
 const products = require('./routes/products');
 const auth = require('./routes/auth');
+const users = require('./routes/users');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(morgan('dev'));
 app.use('/api/orders', orders);
 app.use('/api/products', products);
 app.use('/api/auth', auth);
+app.use('/api/users', users);
 app.use(errorHandler);
 app.use(cookieParser())
  

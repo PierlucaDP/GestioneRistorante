@@ -1,19 +1,23 @@
-/*
 const router = require('express').Router();
 const { protect, authorize } = require('../middleware/auth');
+const {
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser
+} = require('../controllers/users');
 
-const { 
-} = require('../controllers/');
+router.use(protect);
 
 router.route('/')
-  .get(protect, authorize('Admin'), )
-  .post(protect, authorize('Admin'), );
-  
+  .get(authorize('Admin'), getUsers)
+  .post(authorize('Admin'), createUser);
+
 router
   .route('/:id')
-  .get(protect, authorize('Admin'), )
-  .put(protect, authorize('Admin'), )
-  .delete(protect, authorize('Admin'), );
+  .get(authorize('Admin'), getUserById)
+  .put(authorize('Admin'), updateUser)
+  .delete(authorize('Admin'), deleteUser);
 
 module.exports = router;
-*/

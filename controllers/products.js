@@ -5,12 +5,8 @@ const asyncHandler = require('../middleware/asyncHandler')
 // @route   GET /api/products/
 // @access  Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
-    try {
-        const products = await Product.find();
+       const products = await Product.find();
         res.status(200).json({ success: true, totalProducts: products.length, data: products });
-    } catch (err) {
-        res.status(400).json({ success: false, message: err.message });
-    }
 });
 
 // @desc    Get a single product by ID
