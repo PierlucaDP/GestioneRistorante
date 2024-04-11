@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {protect} = require('../middleware/auth');
+const { protect, authorize } = require('../middleware/auth');
 const {
   getProducts,
   getProductById,
@@ -9,12 +9,12 @@ const {
 } = require('../controllers/products');
 
 router.route('/')
-  .get(protect,getProducts)
-  .post(protect, createProduct);
+  .get(protect, authorize('Admin', 'Waiter', 'WarehouseWorker'), getProducts)
+  .post(protect, authorize('Admin', 'WarehouseWorker'), createProduct);
 router
   .route('/:id')
-  .get(protect, getProductById)
-  .put(protect, updateProduct)
-  .delete(protect, deleteProduct);
+  .get(protect, authorize('Admin', 'Waiter', 'WarehouseWorker'), getProductById)
+  .put(protect, authorize('Admin', 'WarehouseWorker'), updateProduct)
+  .delete(protect, authorize('Admin', 'WarehouseWorker'), deleteProduct);
 
 module.exports = router;
