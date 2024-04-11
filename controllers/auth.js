@@ -1,10 +1,11 @@
 const User = require('../models/User');
 const ErrorResponse = require('../utils/errorResponse');
+const asyncHandler = require('../middleware/asyncHandler');
 
 // @desc    Register user
 // @route   POST /api/v1/auth/register
 // @access  Public
-exports.register = async (req, res, next) => {
+exports.register = asyncHandler(async (req, res, next) => {
   const { name, surname, email, password, role } = req.body;
 
   const user = await User.create({
@@ -15,15 +16,14 @@ exports.register = async (req, res, next) => {
     role,
   });
 
-  const token = user.getJWTSignedToken();
 
-  res.status(200).json({ success: true, token });
-};
+  sendTokenResponse(user, 200, res);
+});
 
 // @desc    Login user
 // @route   GET /api/v1/auth/register
 // @access  Public
-exports.login = async (req, res, next) => {
+exports.login = asyncHandler(async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -40,10 +40,27 @@ exports.login = async (req, res, next) => {
 
     if (!isMatch) return next(new ErrorResponse('Invalid credetials', 401));
 
-    const token = user.getJWTSignedToken();
+    sendTokenResponse(user, 200, res);
 
-    res.status(200).json({ success: true, token });
   } catch (err) {
     console.log(err);
   }
+});
+
+
+const sendTokenResponse = (user, statusCode, res) => {
+  const token = user.getJWTSignedToken();
+
+  const options = {
+    expires: new Date(Date.now() + process.env.JWT_EXPIRE * 24 * 60 * 60 * 1000),
+    httpOnly: true
+  };
+
+  res
+    .status(statusCode)
+    .json({
+      success: true,
+      token
+    });
+
 };
