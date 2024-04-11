@@ -21,7 +21,7 @@ exports.register = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Login user
-// @route   GET /api/auth/register
+// @route   POST /api/auth/register
 // @access  Public
 exports.login = asyncHandler(async (req, res, next) => {
   try {
