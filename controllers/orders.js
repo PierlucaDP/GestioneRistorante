@@ -2,6 +2,11 @@ const Order = require('../models/Order');
 const Customer = require('../models/Customer');
 const User = require('../models/User');
 
+const {
+  findTopCustomer,
+  calculateTotalRevenue,
+} = require('../utils/functions');
+
 // @desc    Get all orders
 // @route   GET /api/orders/
 // @access  Public
@@ -96,6 +101,42 @@ exports.deleteOrder = async (req, res, next) => {
     }
 
     res.status(200).json({ success: true, data: {} });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+};
+
+exports.topCustomer = async (req, res, next) => {
+  const { startDate, endDate } = req.query;
+
+  try {
+    const topCustomer = await findTopCustomer(startDate, endDate);
+    if (topCustomer) {
+      res.status(200).json({ success: true, data: topCustomer });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: 'No customers found in the specified date range.',
+      });
+    }
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+};
+
+exports.totalRevenue = async (req, res, next) => {
+  const { startDate, endDate } = req.query;
+
+  try {
+    const totalRevenue = await calculateTotalRevenue(startDate, endDate);
+    if (totalRevenue) {
+      res.status(200).json({ success: true, totalRevenue: totalRevenue });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: 'No revenues founds in the specified date range.',
+      });
+    }
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
   }
