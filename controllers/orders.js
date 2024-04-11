@@ -11,15 +11,7 @@ const {
 // @route   GET /api/orders/
 // @access  Public
 exports.getOrders = async (req, res, next) => {
-  try {
-    const orders = await Order.find();
-
-    res
-      .status(200)
-      .json({ success: true, totalOrders: orders.length, data: orders });
-  } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
-  }
+  res.status(200).json(res.advancedResults);
 };
 
 // @desc    Get a single order by id

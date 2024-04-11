@@ -13,6 +13,15 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Please insert the total amount of product ordered'],
   },
+  products: [
+    {
+      product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+      },
+      quantity: Number,
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
@@ -20,12 +29,12 @@ const orderSchema = new mongoose.Schema({
   customer: {
     type: mongoose.Schema.ObjectId,
     ref: 'Customer',
-    required: true,
+    required: false,
   },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
-    required: true,
+    required: false,
   },
 });
 
