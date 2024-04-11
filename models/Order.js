@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
   totalPrice: {
     type: Number,
-    required: [true, "Please insert the total price"],
+    required: [true, 'Please insert the total price'],
   },
   paid: {
     type: Boolean,
@@ -11,20 +11,20 @@ const orderSchema = new mongoose.Schema({
   },
   amountOrdered: {
     type: Number,
-    required: [true, "Please insert the total amount of product ordered"],
+    required: [true, 'Please insert the total amount of product ordered'],
   },
   createdAt: {
-    type: Date, 
+    type: Date,
     default: Date.now,
   },
   customer: {
     type: mongoose.Schema.ObjectId,
-    ref: "Customer",
+    ref: 'Customer',
     required: true,
   },
   user: {
     type: mongoose.Schema.ObjectId,
-    ref: "User",
+    ref: 'User',
     required: true,
   },
 });

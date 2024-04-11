@@ -1,8 +1,10 @@
 const Order = require('../models/Order');
-const mongoose = require('mongoose');
 const Customer = require('../models/Customer');
 const User = require('../models/User');
 
+// @desc    Get all orders
+// @route   GET /api/orders/
+// @access  Public
 exports.getOrders = async (req, res, next) => {
   try {
     const orders = await Order.find();
@@ -15,6 +17,9 @@ exports.getOrders = async (req, res, next) => {
   }
 };
 
+// @desc    Get a single order by id
+// @route   GET /api/orders/:id
+// @access  Public
 exports.getOrder = async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id);
@@ -31,6 +36,9 @@ exports.getOrder = async (req, res, next) => {
   }
 };
 
+// @desc    Create a order
+// @route   POST /api/orders/
+// @access  Public
 exports.createOrder = async (req, res, next) => {
   try {
     const { customer, user, totalPrice, paid, amountOrdered } = req.body;
@@ -55,6 +63,9 @@ exports.createOrder = async (req, res, next) => {
   }
 };
 
+// @desc    Update a order by id
+// @route   PUT /api/orders/:id
+// @access  Public
 exports.updateOrder = async (req, res, next) => {
   try {
     const order = await Order.findByIdAndUpdate(req.params.id, req.body);
@@ -71,6 +82,9 @@ exports.updateOrder = async (req, res, next) => {
   }
 };
 
+// @desc    Delete a order by id
+// @route   DELETE /api/orders/:id
+// @access  Public
 exports.deleteOrder = async (req, res, next) => {
   try {
     const order = await Order.findByIdAndDelete(req.params.id);

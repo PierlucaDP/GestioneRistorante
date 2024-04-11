@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Product = require('../models/Product');
 
-
 // @desc    Get all products
 // @route   GET /api/v1/products/
 // @access  Public
