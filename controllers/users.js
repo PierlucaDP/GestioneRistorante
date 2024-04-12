@@ -5,8 +5,7 @@ const asyncHandler = require('../middleware/asyncHandler')
 // @route   GET /api/users/
 // @access  Private/Admin
 exports.getUsers = asyncHandler(async (req, res, next) => {
-    const users = await User.find();
-    res.status(200).json({ success: true, totalusers: users.length, data: users });
+    res.status(200).json({ success: true, data: res.advancedResults });
 });
 
 // @desc    Get a single user by ID
@@ -17,8 +16,6 @@ exports.getUserById = asyncHandler(async (req, res, next) => {
     if (!user) {
         res.status(400).json({ success: false, message: `user not found with id inserted.` });
     }
-    res.status(200).json({ success: true, data: user });
-
 });
 
 // @desc    Create a new user

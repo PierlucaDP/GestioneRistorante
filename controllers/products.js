@@ -6,7 +6,7 @@ const asyncHandler = require('../middleware/asyncHandler')
 // @access  Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
        const products = await Product.find();
-        res.status(200).json({ success: true, totalProducts: products.length, data: products });
+    res.status(200).json({ success: true, data: res.advancedResults });
 });
 
 // @desc    Get a single product by ID

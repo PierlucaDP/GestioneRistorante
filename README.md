@@ -9,7 +9,7 @@
 Crea il backend per un'attivita commerciale (Ristorante) che permetta:
 
 1. Gestione degli ordini (ordinazioni cameriere)
-2. Caricare i prodotti acquistati dall'attivita (anagrafica prodotti): CREA,MODIFICA,VISUALIZZA (paginazione filtrata)
+FATTO 2. Caricare i prodotti acquistati dall'attivita (anagrafica prodotti): CREA,MODIFICA,VISUALIZZA (paginazione filtrata)
 3. Gestione ordini clienti (entità-> nome,cognome...)
 4. Creazione ordini (lista di clienti, lista di prodotti, quantita prodotti acquistati, prezzo)
 5. Gestione stato ordine (Pagato, Non Pagato)

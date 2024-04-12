@@ -1,5 +1,7 @@
 const router = require('express').Router();
-const {protect, authorize } = require('../middleware/auth');
+const { protect, authorize } = require('../middleware/auth');
+const filteredResults = require('../middleware/filteredResults');
+const Product = require('../models/Product'); 
 const {
   getProducts,
   getProductById,
@@ -11,7 +13,7 @@ const {
 router.use(protect);
 
 router.route('/')
-  .get(authorize('Admin', 'Waiter', 'WarehouseWorker'), getProducts)
+  .get(authorize('Admin', 'Waiter', 'WarehouseWorker'), filteredResults(Product), getProducts)
   .post(authorize('Admin', 'WarehouseWorker'), createProduct);
 router
   .route('/:id')

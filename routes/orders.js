@@ -23,7 +23,7 @@ router.route('/total-revenue').get( authorize('Admin'), totalRevenue);
 const filteredResult = require('../middleware/filteredResults');
 
 router.route('/')
-  .get( authorize('Admin','Waiter'), filteredResult(Order), getOrders)
+  .get(authorize('Admin', 'Waiter'), filteredResult(Order), getOrders)
   .post( authorize('Admin', 'Waiter'), createOrder);
 
 router.route('/:id')
