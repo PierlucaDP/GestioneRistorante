@@ -60,17 +60,32 @@ exports.getLoggedUser = asyncHandler(async (req, res, next) => {
   });
 });
 
+// @desc    Logout
+// @route   GET /api/auth/logout
+// @access  Private
+exports.logout = asyncHandler(async (req, res, next) => {
+
+
+  res
+    .status(200)
+    .cookie('token', 'none', { expire: Date.now() + 10 * 1000 })
+    .json({
+      sucess: true
+    });
+});
+
 
 const sendTokenResponse = (user, statusCode, res) => {
   const token = user.getJWTSignedToken();
-
+  console.log(process.env.JWT_EXPIRE);
   const options = {
-    expires: new Date(Date.now() + process.env.JWT_EXPIRE * 24 * 60 * 60 * 1000),
+    expire: new Date(Date.now() + process.env.JWT_EXPIRE * 24 * 60 * 60 * 1000),
     httpOnly: true
   };
 
   res
     .status(statusCode)
+    .cookie('token', token, options)
     .json({
       success: true,
       token
