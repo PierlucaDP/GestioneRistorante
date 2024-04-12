@@ -16,7 +16,6 @@ exports.register = asyncHandler(async (req, res, next) => {
     role,
   });
 
-
   sendTokenResponse(user, 200, res);
 });
 
@@ -41,7 +40,6 @@ exports.login = asyncHandler(async (req, res, next) => {
     if (!isMatch) return next(new ErrorResponse('Invalid credetials', 401));
 
     sendTokenResponse(user, 200, res);
-
   } catch (err) {
     console.log(err);
   }
@@ -51,12 +49,17 @@ exports.login = asyncHandler(async (req, res, next) => {
 // @route   GET /api/auth/me
 // @access  Private
 exports.getLoggedUser = asyncHandler(async (req, res, next) => {
+  if (!req.user) {
+    return res
+      .status(401)
+      .json({ success: false, message: 'User not authenticated.' });
+  }
 
   const user = await User.findById(req.user.id);
 
   res.status(200).json({
-    sucess: true,
-    user
+    success: true,
+    user,
   });
 });
 
@@ -64,32 +67,24 @@ exports.getLoggedUser = asyncHandler(async (req, res, next) => {
 // @route   GET /api/auth/logout
 // @access  Private
 exports.logout = asyncHandler(async (req, res, next) => {
-
-
   res
     .status(200)
     .cookie('token', 'none', { expire: Date.now() + 10 * 1000 })
     .json({
-      sucess: true
+      success: true,
     });
 });
 
-
 const sendTokenResponse = (user, statusCode, res) => {
   const token = user.getJWTSignedToken();
-  console.log(process.env.JWT_EXPIRE);
+
   const options = {
     expire: new Date(Date.now() + process.env.JWT_EXPIRE * 24 * 60 * 60 * 1000),
-    httpOnly: true
+    httpOnly: true,
   };
 
-  res
-    .status(statusCode)
-    .cookie('token', token, options)
-    .json({
-      success: true,
-      token
-    });
-
+  res.status(statusCode).cookie('token', token, options).json({
+    success: true,
+    token,
+  });
 };
-

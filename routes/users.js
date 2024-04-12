@@ -7,11 +7,12 @@ const {
   getUserById,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
 } = require('../controllers/users');
 router.use(protect);
 
-router.route('/')
+router
+  .route('/')
   .get(authorize('Admin'), filteredResults(User), getUsers)
   .post(authorize('Admin'), createUser);
 

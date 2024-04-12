@@ -56,4 +56,49 @@ async function calculateTotalRevenue(startDate, endDate) {
   }
 }
 
-module.exports = { findTopCustomer, calculateTotalRevenue };
+async function findTopEarningWaiter() {
+  try {
+    const result = await Order.aggregate([
+      {
+        $group: {
+          _id: '$user',
+          totalEarnings: { $sum: '$totalPrice' },
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'waiter',
+        },
+      },
+      {
+        $unwind: '$waiter',
+      },
+      {
+        $match: { 'waiter.role': 'Waiter' },
+      },
+      {
+        $sort: { totalEarnings: -1 },
+      },
+      {
+        $limit: 1,
+      },
+    ]);
+
+    if (result.length > 0) {
+      return result[0].waiter;
+    } else {
+      return null; 
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+module.exports = {
+  findTopCustomer,
+  calculateTotalRevenue,
+  findTopEarningWaiter,
+};
