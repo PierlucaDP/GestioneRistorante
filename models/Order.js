@@ -9,10 +9,7 @@ const orderSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  amountOrdered: {
-    type: Number,
-    required: [true, 'Please insert the total amount of product ordered'],
-  },
+  amountOrdered: Number,
   products: [
     {
       product: {
@@ -36,6 +33,13 @@ const orderSchema = new mongoose.Schema({
     ref: 'User',
     required: false,
   },
+});
+
+orderSchema.pre('save', function (next) {
+  this.amountOrdered = this.products.reduce((acc, product) => {
+    return acc + product.quantity;
+  }, 0);
+  next();
 });
 
 module.exports = mongoose.model('Order', orderSchema);

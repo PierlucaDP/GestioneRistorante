@@ -34,7 +34,7 @@ exports.getOrder = asyncHandler(async (req, res, next) => {
 // @route   POST /api/orders/
 // @access  Public
 exports.createOrder = asyncHandler(async (req, res, next) => {
-  const { customer, user, totalPrice, paid, amountOrdered, products } = req.body;
+  const { customer, user, totalPrice, paid, products } = req.body;
 
   const customerObject = await Customer.findById(customer);
   const userObject = await User.findById(user);
@@ -42,8 +42,8 @@ exports.createOrder = asyncHandler(async (req, res, next) => {
   const productsForOrder = await Promise.all(
     products.map(async (product) => {
       const { product: productId, quantity } = product;
-      const productObject = await Product.findById(productId);
-      return { product: productObject, quantity };
+      const productObj = await Product.findById(productId);
+      return { product: productObj, quantity };
     })
   );
 
@@ -52,7 +52,6 @@ exports.createOrder = asyncHandler(async (req, res, next) => {
     user: userObject,
     totalPrice,
     paid,
-    amountOrdered,
     products: productsForOrder,
   });
 

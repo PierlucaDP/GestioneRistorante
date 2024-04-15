@@ -6,7 +6,18 @@ const asyncHandler = require('../middleware/asyncHandler');
 // @route   POST /api/auth/register
 // @access  Public
 exports.register = asyncHandler(async (req, res, next) => {
-  const { name, surname, email, password, role } = req.body;
+  const { name, surname, email, password, role, adminRegKey = null } = req.body;
+
+  if (
+    role === 'Admin' &&
+    (!adminRegKey || adminRegKey !== process.env.ADMIN_REGISTRATION_KEY)
+  )
+    return next(
+      new ErrorResponse(
+        "You can't register as admin without an registration key!",
+        401
+      )
+    );
 
   const user = await User.create({
     name,

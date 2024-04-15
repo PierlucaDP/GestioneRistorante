@@ -1,5 +1,5 @@
 const filteredResults = (model, populate) => async (req, res, next) => {
-  let { select, sort, page = 1, limit = 25, ...queryOptions } = req.query;
+  let { select, sort, page = 1, limit = 10, ...queryOptions } = req.query;
 
   page = parseInt(page, 10);
 
@@ -20,8 +20,9 @@ const filteredResults = (model, populate) => async (req, res, next) => {
   const results = await query;
 
   const pagination = {};
-  if (endIndex < total) pagination.nextPage = page + 1;
-  if (startIndex > 0) pagination.prevPage = page - 1;
+  if (endIndex < total && page < total / limit) pagination.nextPage = page + 1;
+  if (startIndex > 0 && page <= total / limit) pagination.prevPage = page - 1;
+  else if (page > total / limit) pagination.prevPage = total / limit;
 
   res.filteredResults = {
     success: true,
