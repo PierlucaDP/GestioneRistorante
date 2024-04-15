@@ -17,6 +17,10 @@ const ProductSchema = new mongoose.Schema({
     required: [true, 'Please add a stored quantity'],
     min: [0, 'The minimum quantity that can be stored is 0'],
   },
+  price: {
+    type: Number,
+    required: [true, 'Please insert the total price'],
+  },
 });
 
 module.exports = mongoose.model('Product', ProductSchema);

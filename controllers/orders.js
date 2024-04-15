@@ -1,5 +1,4 @@
 const Order = require('../models/Order');
-const Customer = require('../models/Customer');
 const Product = require('../models/Product');
 const User = require('../models/User');
 const asyncHandler = require('../middleware/asyncHandler');
@@ -9,6 +8,7 @@ const {
   calculateTotalRevenue,
   findTopEarningWaiter,
 } = require('../utils/functions');
+const ErrorResponse = require('../utils/errorResponse');
 
 // @desc    Get all orders
 // @route   GET /api/orders/
@@ -34,23 +34,29 @@ exports.getOrder = asyncHandler(async (req, res, next) => {
 // @route   POST /api/orders/
 // @access  Public
 exports.createOrder = asyncHandler(async (req, res, next) => {
-  const { customer, user, totalPrice, paid, products } = req.body;
+  const { customer, user, paid, products } = req.body;
 
-  const customerObject = await Customer.findById(customer);
   const userObject = await User.findById(user);
 
   const productsForOrder = await Promise.all(
     products.map(async (product) => {
-      const { product: productId, quantity } = product;
+      const { product: productId, quantity, price } = product;
+
       const productObj = await Product.findById(productId);
-      return { product: productObj, quantity };
+
+      if (quantity < 0) {
+        return next(
+          new ErrorResponse('The quantity must be greater than 0.', 401)
+        );
+      }
+      
+      return { product: productObj, quantity, price };
     })
   );
 
   const order = await Order.create({
-    customer: customerObject,
+    customer,
     user: userObject,
-    totalPrice,
     paid,
     products: productsForOrder,
   });

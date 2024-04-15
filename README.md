@@ -21,3 +21,7 @@ FATTO 2. Caricare i prodotti acquistati dall'attivita (anagrafica prodotti): CRE
 7. Estrazione cliente che ha speso di piu in un intervallo di tempo
 8. In un dato intervallo di tempo guadagni totali
 9. Cameriere che ha fatto guadagnare di piu
+
+
+prezzo
+quantità da scalare all'acquisto
